@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using GymBooking.v1.ModelsIdentity
+
+@inject UserManager<ApplicationUser> userManager
+@inject SignInManager<ApplicationUser> signInManager
+
+@if (signInManager.IsSignedIn(User))
+{
+    <ul class="navbar-nav flex-grow-1">
+        @if (User.IsInRole("Member"))
+        {
+            <li><a asp-area="" asp-controller="Member" asp-action="BookingList" class="nav-link text-dark">Booking list</a></li>
+            <li><a class="nav-link text-dark">@userManager.GetUserName(User) logged in as Member</a></li>
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            <li><a asp-area="" asp-controller="Admin" asp-action="MemberList" class="nav-link text-dark">Registered members</a></li>
+            <li><a class="nav-link text-dark">@userManager.GetUserName(User) logged in as Admin</a></li>
+        }
+        <li nav-link text-dark><a asp-area="" asp-controller="Account" asp-action="Logout" class="nav-link text-dark">Logout</a></li>
+    </ul>
+}
+else
+{
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-link text-dark"><a asp-area="" asp-controller="Account" asp-action="Login" class="nav-link text-dark">Login</a></li>
+    </ul>
+}

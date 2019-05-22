@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using GymBooking.v1.ModelsIdentity
+@model IEnumerable<GymBooking.v1.Models.GymClass>
+@inject UserManager<ApplicationUser> userManager
+@inject SignInManager<ApplicationUser> signInManager
+
+@{
+    ViewData["Title"] = "Gym classes";
+}
+
+<h1>Welcome</h1>
+<h5 class="alert-warning">@ViewBag.Message</h5>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trainer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trainer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @if (signInManager.IsSignedIn(User))
+                {
+                    if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            <a asp-controller="Admin" asp-action="EditGymClass" asp-route-id="@item.GymClassId">Edit</a> |
+                            <a asp-controller="Admin" asp-action="GymClassDetails" asp-route-id="@item.GymClassId">Details</a> |
+                            <a asp-controller="Admin" asp-action="DeleteGymClass" asp-route-id="@item.GymClassId">Delete</a>
+                        </td>
+                    }
+                    else if (User.IsInRole("Member"))
+                    {
+                        <td>
+                            <a asp-controller="Member" asp-action="Book" asp-route-id="@item.GymClassId">Book</a>
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-controller="Admin" asp-action="CreateGymClass">Register new gym class</a>
+    </div>
+}

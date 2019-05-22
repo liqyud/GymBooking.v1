@@ -1,0 +1,42 @@
+﻿@model GymBooking.v1.Models.GymClass
+@{
+    ViewData["Title"] = "DeleteGymClass";
+}
+
+<h3>Are you sure you want to delete gym class?</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+    
+    <form asp-action="DeleteGymClass">
+        <input type="hidden" asp-for="GymClassId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-controller="Home" asp-action="Index">Back to List</a>
+    </form>
+</div>

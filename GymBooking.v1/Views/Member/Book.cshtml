@@ -1,0 +1,58 @@
+﻿
+@model GymBooking.v1.ViewModels.BookingViewModel
+
+@{
+    ViewData["Title"] = "Book";
+}
+
+<h1>Book</h1>
+
+<div>
+    <h4>GymClass</h4>
+    <hr />
+    <p style="color: red;">@Model.Message</p>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Trainger)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Trainger)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.IsBooked)
+    {
+        <a class="btn btn-danger" asp-action="Book" asp-route-id="@Model.Id" asp-route-cancel="true">Cancel</a>
+    }
+    else
+    {
+        <a class="btn btn-primary" asp-action="Book" asp-route-id="@Model.Id" asp-route-book="true">Book</a>
+    }
+    
+    <a asp-controller="Home" asp-action="Index">Return to gym class list</a>
+</div>

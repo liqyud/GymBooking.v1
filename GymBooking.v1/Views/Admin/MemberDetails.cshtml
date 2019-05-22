@@ -1,0 +1,82 @@
+﻿@model GymBooking.v1.ModelsIdentity.ApplicationUser
+@{
+    ViewData["Title"] = "MemberDetails";
+}
+
+<h1>Member Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+
+    <h4>Participants</h4>
+    <hr />
+    @if (Model.GymClasses != null && Model.GymClasses.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Duration
+                    </th>
+                    <th>
+                        Trainer
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var participants in Model.GymClasses)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => participants.GymClass.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => participants.GymClass.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => participants.GymClass.Duration)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => participants.GymClass.Trainer)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h5>User has made no bookings</h5>
+    }
+</div>
+<div>
+    <a asp-controller="Admin" asp-action="EditMember" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-controller="Admin" asp-action="MemberList">Back to List</a>
+</div>
