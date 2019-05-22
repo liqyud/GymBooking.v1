@@ -27,9 +27,21 @@ namespace GymBooking.v1.Controllers
             _context = context;
         }
 
-        public IActionResult BookingList()
+        public async Task<IActionResult> BookingList()
         {
-            return View();
+            var applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
+
+            applicationUser.GymClasses = _context.ApplicationUserGymClass.Where(a => a.ApplicationUserId == applicationUser.Id).ToList();
+            foreach (var gymClassAttendingMember in applicationUser.GymClasses)
+            {
+                gymClassAttendingMember.GymClass = _context.GymClasses.FirstOrDefault(a => a.GymClassId == gymClassAttendingMember.GymClassId);
+            }
+
+            return View(applicationUser);
         }
 
         public enum BookMode

@@ -1,7 +1,53 @@
-﻿
+﻿@model GymBooking.v1.ModelsIdentity.ApplicationUser
+
 @{
     ViewData["Title"] = "BookingList";
 }
 
 <h1>BookingList</h1>
 
+@if (Model.GymClasses != null && Model.GymClasses.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th>
+                    Trainer
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var participants in Model.GymClasses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => participants.GymClass.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => participants.GymClass.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => participants.GymClass.Duration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => participants.GymClass.Trainer)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h5>No bookings have been made</h5>
+}
