@@ -1,8 +1,12 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using GymBooking.v1.Data
+@using Microsoft.AspNetCore.Identity
 @using GymBooking.v1.ModelsIdentity
+@using Microsoft.AspNetCore.Html
+@using Microsoft.AspNetCore.Http
 @model IEnumerable<GymBooking.v1.Models.GymClass>
 @inject UserManager<ApplicationUser> userManager
 @inject SignInManager<ApplicationUser> signInManager
+@inject GymBookingContext context
 
 @{
     ViewData["Title"] = "Gym classes";
@@ -63,9 +67,18 @@
                     }
                     else if (User.IsInRole("Member"))
                     {
-                        <td>
-                            <a asp-controller="Member" asp-action="Book" asp-route-id="@item.GymClassId">Book</a>
-                        </td>
+                        if (Booked(item.GymClassId))
+                        {
+                            <td>
+                                <a class="btn btn-danger" asp-controller="Member" asp-action="Book" asp-route-id="@item.GymClassId">Cancel</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a class="btn btn-primary" asp-controller="Member" asp-action="Book" asp-route-id="@item.GymClassId">Book</a>
+                            </td>
+                        }
                     }
                 }
             </tr>
@@ -78,4 +91,16 @@
     <div>
         <a asp-controller="Admin" asp-action="CreateGymClass">Register new gym class</a>
     </div>
+}
+
+@functions
+{
+    public bool Booked(int gymClassId)
+    {
+
+        var currentUser = context.Users.FirstOrDefault(a => a.UserName == User.Identity.Name);
+        var booked = context.ApplicationUserGymClass.FirstOrDefault(a => a.GymClassId == gymClassId && a.ApplicationUserId == currentUser.Id);
+
+        return booked != null;
+    }
 }
